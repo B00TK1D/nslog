@@ -1,0 +1,10 @@
+$TTL 300
+$ORIGIN @DOMAIN@
+@ IN SOA @NS_NAME@ hostmaster.@DOMAIN@ (
+    1
+    3600
+    600
+    86400
+    300
+)
+@ IN NS @NS_NAME@

@@ -1,0 +1,40 @@
+options {
+    directory "/var/cache/bind";
+    listen-on port 53 { any; };
+    listen-on-v6 port 53 { any; };
+    recursion yes;
+    allow-query { any; };
+    allow-query-cache { any; };
+    allow-recursion { any; };
+    allow-transfer { none; };
+    forward only;
+    forwarders { 8.8.8.8; };
+    dnssec-validation no;
+    pid-file "/run/named/named.pid";
+};
+
+logging {
+    channel queries {
+        file "/var/log/bind/queries.log" versions 5 size 10m;
+        print-time yes;
+        print-category yes;
+        print-severity yes;
+        severity info;
+    };
+    category queries { queries; };
+
+    channel default_log {
+        file "/var/log/bind/named.log" versions 5 size 10m;
+        print-time yes;
+        print-category yes;
+        print-severity yes;
+        severity info;
+    };
+    category default { default_log; };
+};
+
+zone "@DOMAIN@" IN {
+    type primary;
+    file "/tmp/nslog/db.zone";
+    notify no;
+};

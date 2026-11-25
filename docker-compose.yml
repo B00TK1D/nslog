@@ -1,0 +1,15 @@
+services:
+  dns:
+    image: internetsystemsconsortium/bind9:9.20
+    container_name: nslog
+    restart: unless-stopped
+    ports:
+      - "${DNS_PORT:-53}:53/udp"
+      - "${DNS_PORT:-53}:53/tcp"
+    environment:
+      DOMAIN: "${DOMAIN:-example.com}"
+      NS_NAME: "${NS_NAME:-}"
+    volumes:
+      - ./bind:/etc/nslog:ro
+      - ./logs:/var/log/bind
+    entrypoint: ["/bin/sh", "/etc/nslog/entrypoint.sh"]
